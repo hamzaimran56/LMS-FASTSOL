@@ -12,8 +12,11 @@ const userSchema = new mongoose.Schema(
                 ref: 'Course'
             }
         ],
-    }, { timestamps: true });
+    }, 
+    { timestamps: true }
+);
 
-const User = mongoose.model('User', userSchema);
+// Check if model already exists to prevent overwrite error during hot reloads / serverless environments
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;
