@@ -1,5 +1,7 @@
 import { clerkClient, getAuth } from '@clerk/express'
-import Course from '../models/Course.js'
+import Course from '../models/course.js'
+import User from '../models/user.js'
+import Purchase from '../models/Purchase.js'
 import { v2 as cloudinary } from 'cloudinary'
 
 // Update role to educator
@@ -127,7 +129,7 @@ export const educatorDashboardData = async (req, res) => {
     }
 }
 
-    // Get Enrolled Students Data with Purchase Data
+// Get Enrolled Students Data with Purchase Data
 export const getEnrolledStudentsData = async (req, res) => {
     try {
         const auth = getAuth(req)
