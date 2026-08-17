@@ -1,6 +1,6 @@
 import { clerkClient, getAuth } from '@clerk/express'
-import Course from '../models/course.js'
-import User from '../models/user.js'
+import Course from '../models/Course.js'
+import User from '../models/User.js'
 import Purchase from '../models/Purchase.js'
 import { v2 as cloudinary } from 'cloudinary'
 
