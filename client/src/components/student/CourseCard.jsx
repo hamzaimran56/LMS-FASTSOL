@@ -22,17 +22,13 @@ const CourseCard = ({ course }) => {
       {/* Course Details */}
       <div className="p-3 text-left">
         {/* Course Title */}
-        <h3 className="text-base font-semibold min-h-12 leading-6">
-          {course.courseTitle}
-        </h3>
+        <h3 className="text-base font-semibold">{course.courseTitle}</h3>
 
         {/* Educator */}
-        <p className="text-gray-500 text-sm mt-1">
-          {course.educator.name}
-        </p>
+        <p className="text-gray-500">{course.educator.name}</p>
 
         {/* Rating */}
-        <div className="flex items-center space-x-2 mt-2">
+        <div className="flex items-center space-x-2">
           <p>{calculateRating(course)}</p>
           <div className="flex">
             {[...Array(5)].map((_, i) => (
@@ -48,13 +44,11 @@ const CourseCard = ({ course }) => {
               />
             ))}
           </div>
-          <p className="text-gray-500">
-            {course.courseRatings ? course.courseRatings.length : 0}
-          </p>
+          <p className="text-gray-500">{course.courseRatings.length}</p>
         </div>
 
         {/* Price */}
-        <p className="text-base font-semibold text-gray-800 mt-2">
+        <p className="text-base font-semibold text-gray-800">
           {currency}
           {(
             course.coursePrice -
