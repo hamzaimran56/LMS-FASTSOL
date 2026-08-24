@@ -1,14 +1,59 @@
 import React from 'react'
 import { assets } from '../../assets/assets'
+import { useClerk, useUser } from '@clerk/clerk-react'
+import { useNavigate } from 'react-router-dom'
 
 const CallToAction = () => {
+  const { openSignUp } = useClerk()
+  const { user } = useUser()
+  const navigate = useNavigate()
+
+  // 1. Get started Click Handler
+  const handleGetStarted = () => {
+    if (user) {
+      navigate('/course-list')
+      window.scrollTo(0, 0)
+    } else {
+      openSignUp()
+    }
+  }
+
+  // 2. Learn more Click Handler
+  const handleLearnMore = () => {
+    const coursesElement = document.getElementById('courses')
+    if (coursesElement) {
+      coursesElement.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/')
+      setTimeout(() => {
+        document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    }
+  }
+
   return (
     <div className='flex flex-col items-center gap-4 pt-10 pb-24 px-8 md:px-0'>
-      <h1 className='text-xl md:text-4xl text-gray-800 font-semibold'>Learn anything, anytime, anywhere</h1>
-      <p className='text-gray-500 sm:text-sm'>Upskill with industry-aligned courses taught by expert educators. Gain real-world skills, earn certificates, and build your future at your own pace.</p>
+      <h1 className='text-xl md:text-4xl text-gray-800 font-semibold'>
+        Learn anything, anytime, anywhere
+      </h1>
+      <p className='text-gray-500 sm:text-sm max-w-xl text-center'>
+        Upskill with industry-aligned courses taught by expert educators. Gain real-world skills, earn certificates, and build your future at your own pace.
+      </p>
+      
       <div className='flex items-center font-medium gap-6 mt-4'>
-        <button className='px-10 py-3 rounded-md text-white bg-blue-600'>Get started</button>
-        <button className='flex items-center gap-2'>Learn more <img src={assets.arrow_icon} alt="arrow_icon" /></button>
+        <button 
+          onClick={handleGetStarted}
+          className='px-10 py-3 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all cursor-pointer'
+        >
+          Get started
+        </button>
+
+        <button 
+          onClick={handleLearnMore}
+          className='flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-all cursor-pointer'
+        >
+          Learn more <img src={assets.arrow_icon} alt="arrow_icon" className='w-3' />
+        </button>
       </div>
     </div>
   )

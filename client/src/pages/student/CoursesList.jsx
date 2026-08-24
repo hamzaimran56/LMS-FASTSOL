@@ -27,8 +27,8 @@ const CoursesList = () => {
   }, [allCourses, input])
 
   return (
-    <>
-      <div className='relative md:px-36 px-8 pt-20 text-left'>
+    <div className='flex flex-col min-h-screen justify-between'>
+      <div className='relative md:px-36 px-8 pt-20 text-left flex-grow'>
         <div className='flex md:flex-row flex-col gap-6 items-start justify-between w-full'>
           <div>
             <h1 className='text-4xl font-semibold text-gray-800'>Course List</h1>
@@ -38,6 +38,7 @@ const CoursesList = () => {
           </div>
           <SearchBar data={input} />
         </div>
+
         {/* Active Search Term Badge */}
         { input && <div className='inline-flex items-center gap-4 px-4 py-2 border mt-8 -mb-8 text-gray-600'>
             <p>{input}</p>
@@ -55,7 +56,7 @@ const CoursesList = () => {
         </div>
       </div>
       <Footer/>
-    </>
+    </div>
   )
 }
 

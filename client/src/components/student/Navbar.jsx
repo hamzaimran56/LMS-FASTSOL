@@ -1,40 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { AppContext } from "../../context/AppContext";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
   const location = useLocation();
 
-  const { navigate, isEducator, backendUrl, setIsEducator, getToken } = useContext(AppContext);
+  const { navigate } = useContext(AppContext);
 
   const isCourseListPage = location.pathname.includes("/course-list");
 
   const { openSignIn } = useClerk();
   const { user } = useUser();
 
-  const becomeEducator = async () => {
-    try {
-      if (isEducator) {
-        navigate('/educator');
-        return;
-      }
-      const token = await getToken();
-      const { data } = await axios.get(backendUrl + '/api/educator/update-role', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+  // 3-Clicks Security Logic State
+  const [clickCount, setClickCount] = useState(0);
 
-      if (data.success) {
-        setIsEducator(true);
-        toast.success(data.message);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
+  const handleAdminAccess = () => {
+    const nextCount = clickCount + 1;
+    setClickCount(nextCount);
+
+    if (nextCount < 3) {
+      toast.warn("Access Restricted: Only For Administration!");
+    } else {
+      setClickCount(0); // Reset counter
+      navigate('/admin-login'); // 3rd Click Redirect
     }
   };
 
@@ -57,8 +49,8 @@ const Navbar = () => {
         <div className="flex items-center gap-5">
           {user && (
             <>
-              <button onClick={becomeEducator}>
-                {isEducator ? 'Educator Dashboard' : 'Become Educator'}
+              <button onClick={handleAdminAccess}>
+                Educator Dashboard
               </button>
               |
               <Link to="/my-enrollments">My Enrollments</Link>
@@ -83,8 +75,8 @@ const Navbar = () => {
         <div className="flex items-center gap-1 sm:gap-2 max-sm:text-xs">
           {user && (
             <>
-              <button onClick={becomeEducator}>
-                {isEducator ? 'Educator Dashboard' : 'Become Educator'}
+              <button onClick={handleAdminAccess}>
+                Educator Dashboard
               </button>
               |
               <Link to="/my-enrollments">My Enrollments</Link>

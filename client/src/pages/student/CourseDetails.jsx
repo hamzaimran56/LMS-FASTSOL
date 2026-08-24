@@ -78,7 +78,7 @@ const CourseDetails = () => {
 
   useEffect(() => {
     if (userData && courseData) {
-      setIsAlreadyEnrolled(userData.enrolledCourses.includes(courseData._id))
+      setIsAlreadyEnrolled(userData.enrolledCourses?.includes(courseData._id))
     }
   }, [userData, courseData])
 
@@ -90,6 +90,8 @@ const CourseDetails = () => {
       }
     ));
   };
+
+  const ratingValue = courseData ? calculateRating(courseData) : 4.8;
 
   return courseData ? (
     <>
@@ -107,17 +109,18 @@ const CourseDetails = () => {
 
           {/* Review and Ratings */}
           <div className='flex items-center space-x-2 pt-3 pb-1 text-sm'>
-            <p>{calculateRating(courseData)}</p>
+            <p>{ratingValue}</p>
             <div className='flex'>
               {[...Array(5)].map((_, i) => (
-                <img key={i} src={i < Math.floor(calculateRating(courseData)) ? assets.star : assets.star_blank} alt='' className='w-3.5 h-3.5' />
+                <img key={i} src={i < Math.floor(ratingValue) ? assets.star : assets.star_blank} alt='' className='w-3.5 h-3.5' />
               ))}
             </div>
             <p className='text-blue-600'>({courseData.courseRatings?.length || 0} {(courseData.courseRatings?.length || 0) > 1 ? 'ratings' : 'rating'})</p>
             <p>{courseData.enrolledStudents?.length || 0} {(courseData.enrolledStudents?.length || 0) > 1 ? 'students' : 'student'}</p>
           </div>
 
-          <p className='text-sm'>Course by <span className='text-blue-600 underline'>{courseData.educator?.name || "GreatStack"}</span></p>
+          {/* Educator Name Fixed to FastSol */}
+          <p className='text-sm'>Course by <span className='text-blue-600 font-medium'>FastSol</span></p>
 
           {/* Course Structure */}
           <div className='pt-8 text-gray-800'>
@@ -200,7 +203,7 @@ const CourseDetails = () => {
             <div className='flex items-center text-sm md:text-default gap-4 pt-2 md:pt-4 text-gray-500'>
               <div className='flex items-center gap-1'>
                 <img src={assets.star} alt="star icon" />
-                <p>{calculateRating(courseData)}</p>
+                <p>{ratingValue}</p>
               </div>
 
               <div className='h-4 w-px bg-gray-500/40'></div>

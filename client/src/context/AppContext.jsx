@@ -45,12 +45,10 @@ export const AppContextProvider = (props) => {
     }
 
     try {
-      console.log("Checking Clerk Auth Status -> isLoaded:", isLoaded, "isSignedIn:", isSignedIn);
       const token = await getToken();
-      console.log("Clerk Generated Token (fetchUserData):", token);
 
       if (!token) {
-        console.warn("Token is null or undefined! User session might need refresh.");
+        console.warn("Token missing!");
         return;
       }
 
@@ -73,7 +71,6 @@ export const AppContextProvider = (props) => {
   const fetchUserEnrolledCourses = async () => {
     try {
       const token = await getToken();
-      console.log("Clerk Generated Token (fetchUserEnrolledCourses):", token);
 
       if (!token) {
         console.warn("Token missing while fetching enrolled courses!");
@@ -95,10 +92,10 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  // Calculate Average Rating of Course
+  // Calculate Average Rating of Course (Default: 4.8)
   const calculateRating = (course) => {
     if (!course?.courseRatings || course.courseRatings.length === 0) {
-      return 0;
+      return 4.8;
     }
 
     let totalRating = 0;
@@ -106,7 +103,8 @@ export const AppContextProvider = (props) => {
       totalRating += rating.rating || 0;
     });
 
-    return Math.floor(totalRating / course.courseRatings.length);
+    const avg = totalRating / course.courseRatings.length;
+    return Number(avg.toFixed(1));
   };
 
   // Calculate Course Chapter Time

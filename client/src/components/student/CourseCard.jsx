@@ -6,6 +6,10 @@ import { AppContext } from "../../context/AppContext";
 const CourseCard = ({ course }) => {
   const { currency, calculateRating } = useContext(AppContext);
 
+  // Computed Rating Value (4.8 or calculated average)
+  const ratingValue = calculateRating ? calculateRating(course) : 4.8;
+  const totalRatingsCount = course?.courseRatings?.length || 0;
+
   return (
     <Link
       to={"/course/" + course._id}
@@ -25,30 +29,30 @@ const CourseCard = ({ course }) => {
         <h3 className="text-base font-semibold">{course.courseTitle}</h3>
 
         {/* Educator */}
-        <p className="text-gray-500">{course.educator.name}</p>
+        <p className="text-gray-500">FastSol</p>
 
         {/* Rating */}
         <div className="flex items-center space-x-2">
-          <p>{calculateRating(course)}</p>
+          <p className="text-sm font-medium">{ratingValue}</p>
           <div className="flex">
             {[...Array(5)].map((_, i) => (
               <img
                 key={i}
                 src={
-                  i < Math.floor(calculateRating(course))
+                  i < Math.floor(ratingValue)
                     ? assets.star
                     : assets.star_blank
                 }
-                alt=""
+                alt="star"
                 className="w-3.5 h-3.5"
               />
             ))}
           </div>
-          <p className="text-gray-500">{course.courseRatings.length}</p>
+          <p className="text-gray-500 text-sm">({totalRatingsCount})</p>
         </div>
 
         {/* Price */}
-        <p className="text-base font-semibold text-gray-800">
+        <p className="text-base font-semibold text-gray-800 mt-2">
           {currency}
           {(
             course.coursePrice -
