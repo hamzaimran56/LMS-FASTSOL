@@ -7,7 +7,7 @@ const CoursesSection = () => {
   const { allCourses } = useContext(AppContext);
 
   return (
-    <div className="py-16 px-8 md:px-12 lg:px-24 xl:px-32">
+    <div id="courses" className="py-16 px-8 md:px-12 lg:px-24 xl:px-32">
       {/* Heading */}
       <div className="text-center">
         <h2 className="text-3xl font-medium text-gray-800">

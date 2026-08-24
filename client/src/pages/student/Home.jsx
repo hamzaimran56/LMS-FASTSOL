@@ -5,6 +5,8 @@ import CourseSection from '../../components/student/CourseSection'
 import TestimonialsSection from '../../components/student/TestimonialsSection'
 import CallToAction from '../../components/student/CallToAction'
 import Footer from '../../components/student/Footer'
+import AboutSection from '../../components/student/AboutSection'
+import ContactSection from '../../components/student/ContactSection'
 
 const Home = () => {
   return (
@@ -12,11 +14,13 @@ const Home = () => {
       <Hero />
       <Companies />
       <CourseSection />
+      <AboutSection />
       <TestimonialsSection />
+      <ContactSection />
       <CallToAction />
       <Footer />
     </div>
   )
 }
 
-export default Home 
+export default Home
