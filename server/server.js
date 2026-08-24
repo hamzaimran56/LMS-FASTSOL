@@ -8,6 +8,7 @@ import { clerkMiddleware } from '@clerk/express'
 import connectCloudinary from './configs/cloudinary.js'
 import courseRouter from './routes/courseRoutes.js'
 import userRouter from './routes/userRoutes.js'
+import aiRouter from './routes/aiRoutes.js'
 
 // Initialize Express
 const app = express()
@@ -26,6 +27,7 @@ app.post('/clerk', express.json(), clerkWebhooks)
 app.use('/api/educator', educatorRouter)
 app.use('/api/course', express.json(), courseRouter)
 app.use('/api/user', express.json(), userRouter)
+app.use('/api/ai', express.json(), aiRouter)
 app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks)
 
 // Port setup

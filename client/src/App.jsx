@@ -16,6 +16,7 @@ import Navbar from './components/student/Navbar';
 import "quill/dist/quill.snow.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AIChatWidget from './components/student/AIChatWidget'; 
 
 // Admin Protected Route Guard
 const ProtectedRoute = ({ children }) => {
@@ -64,6 +65,9 @@ const App = () => {
 
         </Routes>
       </div>
+
+      {/* Floating AI Chat Widget */}
+      <AIChatWidget />
 
     </div>
   );
