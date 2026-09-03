@@ -67,13 +67,11 @@ export const addCourse = async (req, res) => {
     }
 }
 
-// Get Educator Courses
+// Get Educator Courses (All Courses for Admin View)
 export const getEducatorCourses = async (req, res) => {
     try {
-        const auth = getAuth(req)
-        const educator = auth?.userId || req.auth?.userId
-
-        const courses = await Course.find({ educator })
+        // Fetch all courses so Admin can view all created courses
+        const courses = await Course.find({})
         res.json({ success: true, courses })
 
     } catch (error) {
@@ -84,15 +82,13 @@ export const getEducatorCourses = async (req, res) => {
 // Get Educator Dashboard Data (Total Earnings, Enrolled Students, No. of Courses)
 export const educatorDashboardData = async (req, res) => {
     try {
-        const auth = getAuth(req)
-        const educator = auth?.userId || req.auth?.userId
-
-        const courses = await Course.find({ educator })
+        // Fetch all courses across platform
+        const courses = await Course.find({})
         const totalCourses = courses.length
 
         const courseIds = courses.map(course => course._id)
 
-        // Calculate total earnings from purchases
+        // Calculate total earnings from all completed purchases
         const purchases = await Purchase.find({
             courseId: { $in: courseIds },
             status: 'completed'
@@ -132,10 +128,7 @@ export const educatorDashboardData = async (req, res) => {
 // Get Enrolled Students Data with Purchase Data
 export const getEnrolledStudentsData = async (req, res) => {
     try {
-        const auth = getAuth(req)
-        const educator = auth?.userId || req.auth?.userId
-
-        const courses = await Course.find({ educator })
+        const courses = await Course.find({})
         const courseIds = courses.map(course => course._id)
 
         const purchases = await Purchase.find({
@@ -147,7 +140,7 @@ export const getEnrolledStudentsData = async (req, res) => {
 
         const enrolledStudents = purchases.map(purchase => ({
             student: purchase.userId,
-            courseTitle: purchase.courseId.courseTitle,
+            courseTitle: purchase.courseId ? purchase.courseId.courseTitle : 'N/A',
             purchaseDate: purchase.createdAt
         }))
 

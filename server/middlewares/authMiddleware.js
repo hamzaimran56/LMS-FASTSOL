@@ -10,13 +10,8 @@ export const protectEducator = async (req, res, next) => {
             return res.json({ success: false, message: 'Unauthorized Access' })
         }
 
-        const client = typeof clerkClient === 'function' ? await clerkClient() : clerkClient
-        const response = await client.users.getUser(userId)
-
-        if (response.publicMetadata.role !== 'educator') {
-            return res.json({ success: false, message: 'Unauthorized Access' })
-        }
-
+        // Custom Admin/Educator Login Access:
+        // Yahan role check ko bypass kar ke har logged-in user ko educator access allow kar diya hai
         next()
 
     } catch (error) {

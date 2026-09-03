@@ -18,7 +18,9 @@ export const AppContextProvider = (props) => {
   const { user } = useUser();
 
   const [allCourses, setAllCourses] = useState([]);
-  const [isEducator, setIsEducator] = useState(false);
+  const [isEducator, setIsEducator] = useState(
+    localStorage.getItem("isAdminAuthenticated") === "true"
+  );
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [userData, setUserData] = useState(null);
 
@@ -40,7 +42,7 @@ export const AppContextProvider = (props) => {
 
   // Fetch User Data
   const fetchUserData = async () => {
-    if (user?.publicMetadata?.role === 'educator') {
+    if (user?.publicMetadata?.role === 'educator' || localStorage.getItem("isAdminAuthenticated") === "true") {
       setIsEducator(true);
     }
 

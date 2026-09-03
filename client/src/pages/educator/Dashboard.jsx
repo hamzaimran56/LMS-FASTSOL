@@ -28,7 +28,8 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    if (isEducator) {
+    const isAdminAuth = localStorage.getItem("isAdminAuthenticated") === "true";
+    if (isEducator || isAdminAuth) {
       fetchDashboardData()
     }
   }, [isEducator])
